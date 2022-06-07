@@ -226,20 +226,19 @@ const initUI = async () => {
 	}
 
 	// Add-on: Get Dolby Voice audio recordings of a conference
-	const retrieveRecording = (jwt_access_token, conference_id) => {
-		// If the participant is the current session user, don't add them to the list
-		if (participant.id === VoxeetSDK.session.participant.id) return;
+	const retrieveRecording = (jwt_access_token) => {
+		let conferenceID = VoxeetSDK.conference.current.id;
 
 		const options = {
-	  method: 'GET',
-	  headers: {
+	    method: 'GET',
+	    headers: {
 	    Accept: 'application/json',
 	    'Content-Type': 'application/json',
 	    Authorization: `Bearer ${jwt_access_token}`
 	  	}
 		};
 
-		fetch(`https://api.voxeet.com/v1/monitor/conferences/${conference_id}/recordings/audio`, options)
+		fetch(`https://api.voxeet.com/v1/monitor/conferences/${conferenceID}/recordings/audio`, options)
 		  .then(response => response.json())
 		  .then(response => console.log(response))
 		  .catch(err => console.error(err));
@@ -249,12 +248,20 @@ const initUI = async () => {
 
 
 	const debugLog = () => {
+		const tokenServerURL = './api/token-generator';
+
+		
+
 		// check if the current session participant is speaking every 5 milliseconds
 		setInterval(() => {
 			console.log("=== Debug Log ===");
 
-			let conference = VoxeetSDK.conference.current.id;
-			console.log("The conerence id is ", conference);
+			lfetch(tokenServerURL, {
+				method: 'post'
+			  })
+			  .then(response => response.json())
+			  .then(response => console.log(response))
+			  .catch(err => console.error(err));
 
 		}, 500);
 	};
