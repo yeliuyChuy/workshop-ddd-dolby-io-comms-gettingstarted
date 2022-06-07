@@ -155,7 +155,7 @@ const initUI = async () => {
 								document.getElementById("stop-recording-btn").classList.remove("d-none");
 							})
 							.catch((err) => console.error(err));
-							
+
 						debugLog();
 
 					})
@@ -251,6 +251,8 @@ const initUI = async () => {
 	const debugLog = () => {
 		// check if the current session participant is speaking every 5 milliseconds
 		setInterval(() => {
+			console.log("=== Debug Log ===");
+
 			let conference = VoxeetSDK.conference.id();
 			console.log("The conerence id is ", conference);
 
