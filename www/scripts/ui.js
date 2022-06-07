@@ -163,10 +163,12 @@ const initUI = async () => {
 	};
 
 	document.getElementById("leave-btn").onclick = async () => {
+		let recordStatus = document.getElementById("record-status");
 		// Leave the conference
 		VoxeetSDK.conference
 			.leave()
 			.then(() => {
+				recordStatus.innerText = "";
 				// See Docs:  https://docs.dolby.io/communications-apis/docs/initializing-javascript#open-a-session
 				// close the session
 				VoxeetSDK.session
@@ -188,8 +190,6 @@ const initUI = async () => {
 						document.getElementById("start-recording-btn").classList.add("d-none");
 						document.getElementById("stop-recording-btn").classList.add("d-none");
 						document.getElementById("participants-settings").classList.add("d-none");
-
-						document.getElementById("record-status").innerText = "";
 					})
 					.catch((err) => console.error(err));
 			})
