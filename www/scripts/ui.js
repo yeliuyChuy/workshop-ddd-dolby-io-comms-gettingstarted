@@ -188,11 +188,58 @@ const initUI = async () => {
 						document.getElementById("start-recording-btn").classList.add("d-none");
 						document.getElementById("stop-recording-btn").classList.add("d-none");
 						document.getElementById("participants-settings").classList.add("d-none");
+
+						document.getElementById("record-status").innerText = "";
 					})
 					.catch((err) => console.error(err));
 			})
 			.catch((err) => console.error(err));
 	};
+
+
+	// Add-on: Bearer Authorization using communications API
+	const bearerAuthorization = (username, password) => {
+		//let token = await fetchToken();
+		const options = {
+	  method: 'POST',
+	  headers: {
+	    Accept: 'application/json',
+	    'Cache-Control': 'no-cache',
+	    'Content-Type': 'application/x-www-form-urlencoded',
+	    Authorization: `Basic ${token}`
+	  },
+	  body: new URLSearchParams({grant_type: 'client_credentials'})
+	};
+
+	fetch('https://api.voxeet.com/v1/auth/token', options)
+	  .then(response => response.json())
+	  .then(response => console.log(response))
+	  .catch(err => console.error(err));
+	}
+
+	// Add-on: Get Dolby Voice audio recordings of a conference
+	const retrieveRecording = (jwt_access_token, conference_id) => {
+		// If the participant is the current session user, don't add them to the list
+		if (participant.id === VoxeetSDK.session.participant.id) return;
+
+		const options = {
+	  method: 'GET',
+	  headers: {
+	    Accept: 'application/json',
+	    'Content-Type': 'application/json',
+	    Authorization: `Bearer ${jwt_access_token}`
+	  	}
+		};
+
+		fetch(`https://api.voxeet.com/v1/monitor/conferences/${conference_id}/recordings/audio`, options)
+		  .then(response => response.json())
+		  .then(response => console.log(response))
+		  .catch(err => console.error(err));
+	};
+
+
+
+
 
 	// Determine and update UI based on who is speaking
 	const beginIsSpeaking = () => {
