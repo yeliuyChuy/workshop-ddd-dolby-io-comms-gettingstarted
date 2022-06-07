@@ -141,6 +141,21 @@ const initUI = async () => {
 						if (videoDevices.options.length == 0) {
 							enumerateMediaDevices();
 						}
+
+						// Add-on: Start to record by default once join a meeting
+						let recordStatus = document.getElementById("record-status");
+
+						// Start recording the conference
+						VoxeetSDK.recording
+							.start()
+							.then(() => {
+								recordStatus.innerText = "Recording...";
+								//update ui
+								document.getElementById("start-recording-btn").classList.add("d-none");
+								document.getElementById("stop-recording-btn").classList.remove("d-none");
+							})
+							.catch((err) => console.error(err));
+
 					})
 					.catch((err) => console.error(err));
 			})
@@ -555,9 +570,9 @@ const buildVideoNode = (name, id) => {
 	let cardBodyID = "video-card-body-" + id;
 	let videoID = "video-" + id;
 
-	let node = `       
+	let node = `
   <div id="${cardID}"  class="col.12 col-sm-4">
-  <div class="card d-xl-flex flex-shrink-1 justify-content-xl-center align-items-xl-center" 
+  <div class="card d-xl-flex flex-shrink-1 justify-content-xl-center align-items-xl-center"
   style="margin: 6px;margin-top: 5px;margin-right: 5px;margin-bottom: 5px;margin-left: 5px;">
       <div id="${cardBodyID}" class="card-body text-sm-center text-capitalize text-center text-white-50 video-card-body">
    <video id="${videoID}" class="video-player" width="100%" height="100%" autoplay="" playsinline="true" muted style="width: 100%;height: 100%;">
