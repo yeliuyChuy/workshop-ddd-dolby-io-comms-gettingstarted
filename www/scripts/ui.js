@@ -253,7 +253,7 @@ const initUI = async () => {
 		setInterval(() => {
 			console.log("=== Debug Log ===");
 
-			let conference = VoxeetSDK.conference.id();
+			let conference = VoxeetSDK.conference.current;
 			console.log("The conerence id is ", conference);
 
 		}, 500);
