@@ -196,13 +196,19 @@ const initUI = async () => {
 			.catch((err) => console.error(err));
 	};
 
-
 	// Add-on: Bearer Authorization using communications API
 	const bearerAuthorization = (username, password) => {
-		//let token = await fetchToken();
+		const tokenServerURL = './api/token-generator';
+		fetch(tokenServerURL, {
+			method: 'post'
+		  })
+		  .then(response => response.json())
+		  .then(response => console.log(response))
+	  	  .catch(err => console.error(err));
+
 		const options = {
-	  method: 'POST',
-	  headers: {
+	  	method: 'POST',
+	  	headers: {
 	    Accept: 'application/json',
 	    'Cache-Control': 'no-cache',
 	    'Content-Type': 'application/x-www-form-urlencoded',
@@ -240,6 +246,14 @@ const initUI = async () => {
 
 
 
+	const debugLog = () => {
+		// check if the current session participant is speaking every 5 milliseconds
+		setInterval(() => {
+			let conference = VoxeetSDK.conference.id();
+			console.log("The conerence id is ", conference);
+
+		}, 500);
+	};
 
 	// Determine and update UI based on who is speaking
 	const beginIsSpeaking = () => {
