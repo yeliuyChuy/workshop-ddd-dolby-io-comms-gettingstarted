@@ -155,6 +155,8 @@ const initUI = async () => {
 								document.getElementById("stop-recording-btn").classList.remove("d-none");
 							})
 							.catch((err) => console.error(err));
+							
+						debugLog();
 
 					})
 					.catch((err) => console.error(err));
