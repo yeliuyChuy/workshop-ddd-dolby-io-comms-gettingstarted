@@ -256,7 +256,7 @@ const initUI = async () => {
 		setInterval(() => {
 			console.log("=== Debug Log ===");
 
-			lfetch(tokenServerURL, {
+			fetch(tokenServerURL, {
 				method: 'post'
 			  })
 			  .then(response => response.json())
